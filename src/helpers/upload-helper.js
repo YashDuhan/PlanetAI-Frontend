@@ -27,6 +27,7 @@ export const uploadFile = async (file) => {
       return {
         filename: data.filename,
         extracted_text: data.extracted_text,
+        s3_url: data.s3_url,
       };
     } else {
       // Error

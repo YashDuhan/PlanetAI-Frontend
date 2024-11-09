@@ -7,7 +7,7 @@ export const formatText = (text) => {
 
   // Process each line for bold and bullet points
   const formattedLines = lines.map((line) => {
-    // Bold text by wrapping the **text** in <b></b> tags
+    // Bold text by replacing the **text** with <b></b> tags
     line = line.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
 
     // Format bullet points (support both * and 1. as bullet points)

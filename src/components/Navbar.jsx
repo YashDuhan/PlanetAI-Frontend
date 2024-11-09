@@ -6,8 +6,8 @@ import { Plus, File, XCircle } from "lucide-react";
 
 // Using setExtractedText as props to update value in App.jsx
 const Navbar = ({ setExtractedText, onClearChat }) => {
-  // storing the name of the uploaded file
-  const [filename, setFilename] = useState("");
+  // storing the s3 url of the uploaded file
+  const [s3Url, setS3Url] = useState("");
 
   // Uploading the file
   const handleUploadClick = async () => {
@@ -23,8 +23,8 @@ const Navbar = ({ setExtractedText, onClearChat }) => {
         try {
           const result = await uploadFile(file); // send file to helper function
           // Populating the result fetched from the backend
-          setFilename(result.filename);
           setExtractedText(result.extracted_text); // Directly passing the extractedText to App.jsx
+          setS3Url(result.s3_url);
         } catch (error) {
           // Error handling
           console.error("File upload failed:", error);
@@ -45,13 +45,23 @@ const Navbar = ({ setExtractedText, onClearChat }) => {
             <img src={logo} alt="Logo" className="h-12 w-28 object-contain" />
           </div>
           <div className="flex gap-3">
-            {/* Display the truncated filename if size exceeds */}
+            {/* display the S3 link */}
             <div className="px-4 py-1 md:px-5 md:py-2 border rounded-full hover:bg-green-500 flex items-center text-sm md:text-base max-w-xs truncate">
-              {/* Conditionally render the File icon based on filename */}
-              {filename && <File className="text-lg md:text-xl" />}
-              <span className="ml-1 truncate">
-                {filename || "No file selected"}
-              </span>
+              {s3Url ? (
+                <>
+                  <File className="text-lg md:text-xl" />
+                  <a
+                    href={s3Url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-1 truncate text-blue-600 hover:text-blue-800"
+                  >
+                    Permanent URL
+                  </a>
+                </>
+              ) : (
+                <span className="ml-1 truncate">No file selected</span>
+              )}
             </div>
             {/* Button to upload file */}
             <button
