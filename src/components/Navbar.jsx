@@ -1,4 +1,3 @@
-// NavBar.jsx
 import { useState } from "react";
 import logo from "../assets/images/logo.png";
 import { uploadFile } from "../helpers/upload-helper";
@@ -6,7 +5,7 @@ import { Plus, File, XCircle } from "lucide-react";
 import PropTypes from "prop-types";
 
 // Using setExtractedText as props to update value in App.jsx
-const Navbar = ({ setExtractedText, onClearChat }) => {
+const NavBar = ({ setExtractedText, onClearChat }) => {
   // storing the s3 url of the uploaded file
   const [s3Url, setS3Url] = useState("");
 
@@ -92,9 +91,9 @@ const Navbar = ({ setExtractedText, onClearChat }) => {
 };
 
 // prop types
-Navbar.propTypes = {
+NavBar.propTypes = {
   setExtractedText: PropTypes.func.isRequired, // setExtractedText should be a function
   onClearChat: PropTypes.func.isRequired, // onClearChat should be a function
 };
 
-export default Navbar;
+export default NavBar;
