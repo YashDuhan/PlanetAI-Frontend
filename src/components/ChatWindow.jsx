@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Clipboard } from "lucide-react";
 import { formatText } from "../helpers/formatText";
+import userIcon from "../assets/images/user_icon.svg";
+import systemIcon from "../assets/images/system_icon.svg";
+import PropTypes from "prop-types";
 
 const ChatWindow = ({ messages, isTyping }) => {
   const [copiedMessageIndex, setCopiedMessageIndex] = useState(null); // Track copied message index
@@ -9,7 +12,7 @@ const ChatWindow = ({ messages, isTyping }) => {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        setCopiedMessageIndex(index); // Showfeedback
+        setCopiedMessageIndex(index); // Show feedback
         setTimeout(() => setCopiedMessageIndex(null), 2000); // Remove feedback after 2 sec
       })
       .catch((err) => {
@@ -32,8 +35,17 @@ const ChatWindow = ({ messages, isTyping }) => {
                 : "justify-start md:ml-20"
             }`} // Align messages based on sender
           >
+            {/* Icon for sender */}
+            <div className="flex items-center mr-2">
+              {msg.sender === "user" ? (
+                <img src={userIcon} alt="User Icon" className="w-8 h-8" />
+              ) : (
+                <img src={systemIcon} alt="System Icon" className="w-8 h-8" />
+              )}
+            </div>
+
             <div
-              className={`p-3 max-w-xs rounded-lg ${
+              className={`p-3 max-w-xl rounded-lg ${
                 msg.sender === "user"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-300 text-black"
@@ -53,7 +65,6 @@ const ChatWindow = ({ messages, isTyping }) => {
             </button>
 
             {/* Feedback for copying */}
-            {/* Only show feedback at that specific message's index */}
             {copiedMessageIndex === index && (
               <span className="text-green-500 text-sm ml-2">Copied!</span>
             )}
@@ -63,7 +74,7 @@ const ChatWindow = ({ messages, isTyping }) => {
         {/* Display if system is typing */}
         {isTyping && (
           <div className="flex justify-start">
-            <div className="p-3 md:ml-20 max-w-xs rounded-lg bg-gray-300 text-black italic">
+            <div className="p-3 md:ml-20 max-w-lg rounded-lg bg-gray-300 text-black italic">
               Thinking..
             </div>
           </div>
@@ -71,6 +82,18 @@ const ChatWindow = ({ messages, isTyping }) => {
       </div>
     </div>
   );
+};
+
+// prop types
+ChatWindow.propTypes = {
+  // messages is an array
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      sender: PropTypes.string.isRequired, // The sender should be a string
+      text: PropTypes.string.isRequired, // The text should be a string
+    })
+  ).isRequired,
+  isTyping: PropTypes.bool.isRequired,
 };
 
 export default ChatWindow;

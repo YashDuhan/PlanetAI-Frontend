@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
+import PropTypes from "prop-types";
 
 const ChatBox = ({ onSend }) => {
   // State to store the question
@@ -41,6 +42,11 @@ const ChatBox = ({ onSend }) => {
       </form>
     </div>
   );
+};
+
+// prop types
+ChatBox.propTypes = {
+  onSend: PropTypes.func.isRequired, // onSend should be a function
 };
 
 export default ChatBox;
